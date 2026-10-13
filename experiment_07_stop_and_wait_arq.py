@@ -1,28 +1,37 @@
-# EXPERIMENT 07: STOP-AND-WAIT SLIDING WINDOW PROTOCOL SIMULATION
-# Aim: To simulate the Stop-and-Wait flow control and ARQ reliable data transfer mechanism with timeout retransmissions and acknowledgments using Python.
+"""Experiment 07: Stop-and-Wait ARQ simulation."""
 
 import time
 
-def stop_and_wait(frames):
-    for i in range(1, frames + 1):
+
+def stop_and_wait(frames, pause=0.5):
+    if frames <= 0:
+        raise ValueError("Number of frames must be a positive integer.")
+    for frame in range(1, frames + 1):
         while True:
-            print(f"\nSender: Sending Frame {i}")
-            time.sleep(0.5)
-            print(f"Receiver: Frame {i} received successfully")
-            time.sleep(0.5)
-            ack = input(f"Enter ACK for Frame {i} (Y/N): ").upper()
-            if ack == 'Y':
-                print(f"Sender: ACK {i} received")
-                print(f"Frame {i} transmitted successfully")
+            print(f"\nSender: Sending Frame {frame}")
+            time.sleep(pause)
+            print(f"Receiver: Frame {frame} received successfully")
+            time.sleep(pause)
+            ack = input(f"Enter ACK for Frame {frame} (Y/N): ").strip().upper()
+            if ack == "Y":
+                print(f"Sender: ACK {frame} received")
+                print(f"Frame {frame} transmitted successfully")
                 break
+            if ack == "N":
+                print(f"Sender: ACK {frame} lost")
+                print(f"Sender: Retransmitting Frame {frame}")
             else:
-                print(f"Sender: ACK {i} lost")
-                print(f"Sender: Retransmitting Frame {i}")
+                print("Invalid ACK. Please enter Y or N.")
     print("\nAll frames transmitted successfully.")
 
-# Input total frames and execute simulation
-n = int(input("Enter the number of frames: "))
-stop_and_wait(n)
+
+def main():
+    try:
+        frames = int(input("Enter the number of frames: "))
+        stop_and_wait(frames)
+    except ValueError as exc:
+        print("Invalid input:", exc)
 
 
-============================================================
+if __name__ == "__main__":
+    main()
