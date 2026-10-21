@@ -1,0 +1,20 @@
+enable
+configure terminal
+interface gigabitEthernet0/0
+ip address 192.168.1.1 255.255.255.0
+no shutdown
+exit
+interface gigabitEthernet0/1
+ip address 192.168.2.1 255.255.255.0
+no shutdown
+exit
+end
+write
+## lan
+enable
+configure terminal
+interface fastEthernet 0/1
+duplex full
+end
+show interfaces fastEthernet 0/1
+##Switch
